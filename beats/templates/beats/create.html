@@ -1,0 +1,123 @@
+{% extends "beats/layout.html" %}
+{% load static %}
+
+{% block title %}
+    Create | BeatMaker
+{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <h1 class="mt-3">Create Beat</h1>
+        <table class="mt-3 mx-auto">
+            <tr class="me-4">
+                <td id="kick">
+                    <i class="fa-solid fa-shoe-prints"></i>
+                    <p class="ms-4 me-4 mt-1">Kick</p>
+                </td>
+                <td class="pt-2 pb-2">
+                    <div class="d-flex flex-wrap" data-instrument="kick">
+                        {% for i in range %}
+                            <div class="note blank-note curved m-2 kick-row" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 and i != 15 %}
+                                <div class="beat-separator my-auto m-2"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+            <tr class="me-4">
+                <td id="snare">
+                    <i class="fa-solid fa-drum"></i>
+                    <p class="ms-4 me-4 mt-1">Snare</p>
+                </td>
+                <td class="pt-2 pb-2">
+                    <div class="d-flex flex-wrap" data-instrument="snare">
+                        {% for i in range %}
+                            <div class="note blank-note curved m-2 snare-row" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 and i != 15 %}
+                                <div class="beat-separator my-auto m-2"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+            <tr class="me-4">
+                <td id="clap">
+                    <i class="fa-solid fa-hands-clapping"></i>
+                    <p class="ms-4 me-4 mt-1">Clap</p>
+                </td>
+                <td class="pt-2 pb-2">
+                    <div class="d-flex flex-wrap" data-instrument="clap">
+                        {% for i in range %}
+                            <div class="note blank-note curved m-2 clap-row" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 and i != 15 %}
+                                <div class="beat-separator my-auto m-2"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+            <tr class="me-4">
+                <td id="hat">
+                    <i class="fa-solid fa-wind"></i>
+                    <p class="ms-4 me-4 mt-1">Hat</p>
+                </td>
+                <td class="pt-2 pb-2">
+                    <div class="d-flex flex-wrap" data-instrument="hat">
+                        {% for i in range %}
+                            <div class="note blank-note curved m-2 hat-row" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 and i != 15 %}
+                                <div class="beat-separator my-auto m-2"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="mt-3">
+            <form class="mb-2 mx-auto">
+                <div>Tempo:
+                    <strong id="tempo-label">
+                        {% if tempo %}
+                            {{ tempo }}
+                        {% else %}
+                            120
+                        {% endif %}
+                    </strong>
+                </div>
+                {% if tempo %}
+                    <input type="range" class="form-range mt-1" id="tempo" min="50" max="200" value="{{ tempo }}">
+                {% else %}
+                    <input type="range" class="form-range mt-1" id="tempo" min="50" max="200" value="120">
+                {% endif %}
+            </form>
+            <button class="btn btn-success m-1" id="play">Play</button>
+            <button class="btn btn-warning m-1" id="stop">Stop</button>
+            <button class="btn btn-danger m-1" id="reset">Reset</button>
+            {% if user.is_authenticated %}
+                <button class="btn btn-primary m-1" id="save">Save</button>
+            {% endif %}
+            <form class="mt-4">
+                {% if metronome == "true" %}
+                    <input type="checkbox" class="form-check-input" id="metronome" checked>
+                {% else %}
+                    <input type="checkbox" class="form-check-input" id="metronome">
+                {% endif %}
+
+                <span class="ms-2">Enable metronome</span>
+            </form>
+
+            <div class="alert alert-danger mt-4 mx-auto d-none" id="invalid-pattern">
+                Invalid beat pattern.
+            </div>
+
+            {% if not user.is_authenticated %}
+                <div class="alert alert-success mt-4 mx-auto">
+                    <a href="{% url 'login' %}">Log in</a> to save your beats.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{% static 'beats/create.js' %}"></script>
+{% endblock %}

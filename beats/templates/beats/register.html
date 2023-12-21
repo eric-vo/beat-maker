@@ -1,0 +1,30 @@
+{% extends "beats/layout.html" %}
+
+{% block title %}
+    Register | BeatMaker
+{% endblock %}
+
+{% block body %}
+    <div class="vertical-center text-center" id="register">
+        <h1 class="mb-4">Register</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mx-auto smaller-form">
+                <input autofocus class="form-control mb-2" name="username" placeholder="Username" required>
+                <input class="form-control mb-2" name="password" placeholder="Password" type="password" required>
+                <input class="form-control mb-2" name="confirmation" placeholder="Confirm Password" type="password" required>
+                <input class="btn btn-primary mt-3 pb-2" type="submit" value="Register">
+            </div>
+        </form>
+        <div class="mt-5">
+            Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+        </div>
+
+        {% if message %}
+            <div class="alert alert-warning mt-4 mx-auto">
+                {{ message }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

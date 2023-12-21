@@ -1,0 +1,97 @@
+/* * {
+    border: 1px solid red;
+} */
+
+#body {
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#intro {
+    margin-top: 20%;
+}
+
+#login, #register {
+    margin-top: 20%;
+}
+
+#tempo {
+    max-width: 500px;
+}
+
+#kick, #snare, #clap, #hat {
+    cursor: pointer;
+}
+
+.alert {
+    max-width: 650px;
+}
+
+.curved {
+    border-radius: 5px;
+}
+
+.note {
+    width: 30px;
+    height: 60px;
+    border: 3px solid var(--bs-primary);
+    cursor: pointer;
+}
+
+.blank-note:hover {
+    background-color: rgb(220, 231, 247);
+}
+
+.colored-note {
+    animation-name: color-note;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+}
+
+.playing-note {
+    animation-name: play-note;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+}
+
+.beat-separator {
+    width: 2px;
+    height: 70px;
+    background-color: lightgray;
+}
+
+.small-form {
+    max-width: 700px;
+}
+
+.smaller-form {
+    max-width: 600px;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes color-note {
+    from {
+        background-color: hsl(216, 63%, 92%);
+    }
+    to {
+        background-color: var(--bs-primary);
+    }
+}
+
+@keyframes play-note {
+    from {
+        background-color: hsl(216, 63%, 92%);
+    }
+    to {
+        background-color: hsl(158, 97%, 36%);
+    }
+}
