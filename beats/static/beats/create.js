@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
         url.searchParams.delete('m');
     }
 
-    const invalidPattern = document.querySelector('#invalid-pattern');
     const pattern = url.searchParams.get('p');
     if (pattern) {
         let validPattern = true;
@@ -226,7 +225,7 @@ function updatePattern(note) {
     const binaryColumn = hexToBinary(hexColumn);
 
     const instrumentIndex = instruments.indexOf(
-        note.parentElement.dataset.instrument
+        note.parentElement.parentElement.dataset.instrument
     );
 
     // Flip the bit corresponding to the note

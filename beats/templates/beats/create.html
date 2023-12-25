@@ -22,7 +22,14 @@
                 <td class="pt-2 pb-2">
                     <div class="d-flex flex-wrap" data-instrument="kick">
                         {% for i in range %}
-                            <div class="note blank-note curved m-2 kick-row" data-id="{{ i }}"></div>
+                            {% if i|divisibleby:2 %}
+                                <div>
+                            {% endif %}
+                                    <div class="note blank-note curved m-2 kick-row d-inline-block" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 %}
+                                </div>
+                            {% endif %}
+
                             {% if not i|divisibleby:2 and i != 15 %}
                                 <div class="beat-separator my-auto m-2"></div>
                             {% endif %}
@@ -38,7 +45,14 @@
                 <td class="pt-2 pb-2">
                     <div class="d-flex flex-wrap" data-instrument="snare">
                         {% for i in range %}
-                            <div class="note blank-note curved m-2 snare-row" data-id="{{ i }}"></div>
+                            {% if i|divisibleby:2 %}
+                                <div>
+                            {% endif %}
+                                    <div class="note blank-note curved m-2 snare-row d-inline-block" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 %}
+                                </div>
+                            {% endif %}
+
                             {% if not i|divisibleby:2 and i != 15 %}
                                 <div class="beat-separator my-auto m-2"></div>
                             {% endif %}
@@ -54,7 +68,14 @@
                 <td class="pt-2 pb-2">
                     <div class="d-flex flex-wrap" data-instrument="clap">
                         {% for i in range %}
-                            <div class="note blank-note curved m-2 clap-row" data-id="{{ i }}"></div>
+                            {% if i|divisibleby:2 %}
+                                <div>
+                            {% endif %}
+                                    <div class="note blank-note curved m-2 clap-row d-inline-block" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 %}
+                                </div>
+                            {% endif %}
+
                             {% if not i|divisibleby:2 and i != 15 %}
                                 <div class="beat-separator my-auto m-2"></div>
                             {% endif %}
@@ -70,7 +91,14 @@
                 <td class="pt-2 pb-2">
                     <div class="d-flex flex-wrap" data-instrument="hat">
                         {% for i in range %}
-                            <div class="note blank-note curved m-2 hat-row" data-id="{{ i }}"></div>
+                            {% if i|divisibleby:2 %}
+                                <div>
+                            {% endif %}
+                                    <div class="note blank-note curved m-2 hat-row d-inline-block" data-id="{{ i }}"></div>
+                            {% if not i|divisibleby:2 %}
+                                </div>
+                            {% endif %}
+
                             {% if not i|divisibleby:2 and i != 15 %}
                                 <div class="beat-separator my-auto m-2"></div>
                             {% endif %}

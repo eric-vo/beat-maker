@@ -12,6 +12,7 @@ MAX_NAME_LENGTH = 128
 MIN_TEMPO = 50
 MAX_TEMPO = 200
 DEFAULT_TEMPO = 120
+PATTERN_LENGTH = 16
 DEFAULT_PATTERN = "0000000000000000"
 
 
@@ -41,7 +42,7 @@ def create(request):
         else:
             try:
                 int(pattern, 16)
-                if len(pattern) != 16:
+                if len(pattern) != PATTERN_LENGTH:
                     raise ValueError
             except ValueError:
                 error_message = "Invalid pattern."
@@ -61,7 +62,10 @@ def create(request):
             return render(
                 request,
                 "beats/create.html",
-                {"range": range(16), "error_message": error_message},
+                {
+                    "range": range(PATTERN_LENGTH),
+                    "error_message": error_message,
+                },
                 status=400,
             )
 
@@ -82,7 +86,7 @@ def create(request):
         request,
         "beats/create.html",
         {
-            "range": range(16),
+            "range": range(PATTERN_LENGTH),
             "name": name,
             "tempo": tempo,
             "metronome": metronome.lower() if metronome is not None else None,
@@ -92,11 +96,33 @@ def create(request):
 
 @login_required
 def beats(request):
-    if request.method == "POST" and request.user.is_authenticated:
-        beat = Beat.objects.get(pk=request.POST["id"], creator=request.user)
-        beat.delete()
-
     beats = request.user.beats.all()
+
+    if request.method == "POST" and request.user.is_authenticated:
+        try:
+            beat = Beat.objects.get(
+                pk=request.POST["id"], creator=request.user
+            )
+            beat.delete()
+        except Beat.DoesNotExist:
+            return render(
+                request,
+                "beats/beats.html",
+                {
+                    "beats": reversed(beats),
+                    "error_message": "Invalid beat ID.",
+                },
+            )
+
+        return render(
+            request,
+            "beats/beats.html",
+            {
+                "beats": reversed(beats),
+                "success_message": f"Deleted <strong>{beat.name}</strong>!",
+            },
+        )
+
     return render(request, "beats/beats.html", {"beats": reversed(beats)})
 
 
