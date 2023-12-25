@@ -1,5 +1,5 @@
 # BeatMaker
-**Make beats easily online: no install needed.**
+**Make beats easily online: no installation needed.**
 
 This is my final project for [CS50’s Web Programming with Python and JavaScript.](https://cs50.harvard.edu/web)
 
@@ -21,7 +21,7 @@ This is my final project for [CS50’s Web Programming with Python and JavaScrip
 
 ### `beat_maker/`:
 - `settings.py`: The project's settings, including the added main app and modified login URL.
-- `urls.py`: Code containing the main app's routes and the admin route.
+- `urls.py`: Code containing the main app's routes and admin route.
 
 ### `beats/`:
 - `models.py`: Code containing the `Beat` model to store users' beats.
@@ -52,4 +52,4 @@ This is my final project for [CS50’s Web Programming with Python and JavaScrip
 ## Distinctiveness and Complexity:
 This project is sufficiently distinct from the other projects in this course because this project focuses on music, which is unseen in other projects. This project is the only project in this course to utilize played sounds as the primary focus, using JavaScript to play each sound according to which notes the user fills in. Additionally, the beats in this project depend on time-based elements, such as beat numbers and tempo, which the other, mainly text-based projects, do not have.
 
-This project is more complex than the other projects in this course because of the URL and pattern manipulation required to make it function. With every adjustable parameter, the code must modify the URL to store each parameter whenever the user edits a beat; this allows for sharing and loading beats just by sharing a link. In addition, the project code has to enable loading beats from these URL parameters, which requires strategic looping through notes to fill them in and play them later. A notable element is the pattern URL parameter (`p`), which uses hexadecimal characters to store the note data of each column in the beat. To decode this pattern ID, each character must be converted into a four-character binary string, with each bit representing the state of each note in the column. To assemble the pattern ID again when the beat is updated, the opposite needs to happen.
+This project is more complex than the other projects in this course because of the URL and pattern manipulation required to make it function. With every adjustable parameter, the code must modify the URL to store each parameter whenever the user edits a beat; this allows for sharing and loading beats just by sharing a link. In addition, the project code has to enable loading beats from these URL parameters, which requires strategic looping through notes to fill them in and play them later. A notable element is the pattern URL parameter (`p`), which uses hexadecimal characters to store the note data of each column in the beat. To decode this pattern ID, each character must be converted into a four-character binary string, with each bit representing the state of each note in the column. When the beat is updated, the opposite needs to happen to assemble the pattern ID again.

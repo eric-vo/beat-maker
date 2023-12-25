@@ -144,10 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 });
 
-function addAudioTrigger(id) {
-    new Audio(`${staticDir}/${id}.wav`);
-    document.querySelector(`#${id}`).onclick = () => {
-        playAudio(id);
+function addAudioTrigger(name) {
+    new Audio(`${staticDir}/${name}.wav`);
+    document.querySelector(`#${name}`).onclick = () => {
+        playAudio(name);
     };
 }
 
@@ -162,7 +162,7 @@ function playBeat() {
             note.classList.add('playing-note');
 
             if (note.classList.contains('colored-note')) {
-                playAudio(note.parentElement.dataset.instrument);
+                playAudio(note.parentElement.parentElement.dataset.instrument);
             }
         } else if (note.dataset.id == (beat + patternLength - 1) % patternLength) {
             note.classList.remove('playing-note');

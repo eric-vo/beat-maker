@@ -33,7 +33,7 @@
                     <h5 class="d-inline-block ms-1 my-auto mb-3">{{ beat.tempo }} BPM</h5>
                 </span>
                 <span>
-                    <a class="btn btn-primary m-1" href="/create?n={{ beat.name }}{% if beat.pattern != "0000000000000000" %}&p={{ beat.pattern }}{% endif %}{% if beat.tempo != 120 %}&t={{ beat.tempo }}{% endif %}{% if beat.metronome_on %}&m=true{% endif %}">Load Beat</a>
+                    <a class="btn btn-primary m-1" href="{% url 'create' %}?n={{ beat.name }}{% if beat.pattern != "0000000000000000" %}&p={{ beat.pattern }}{% endif %}{% if beat.tempo != 120 %}&t={{ beat.tempo }}{% endif %}{% if beat.metronome_on %}&m=true{% endif %}">Load Beat</a>
                     <button class="btn btn-success m-1 copy-button">Copy Link</button>
                     <form method="post" class="d-inline-block delete-form">
                         {% csrf_token %}
@@ -45,7 +45,7 @@
         </div>
     {% empty %}
         <p class="mt-4 text-muted text-center">
-            You have no beats saved. Try <a href="/create">making one!</a>
+            You have no beats saved. Try <a href="{% url 'create' %}">making one!</a>
         </p>
     {% endfor %}
 
