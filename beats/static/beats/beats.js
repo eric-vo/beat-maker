@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             copyButton.innerHTML = 'Copied!';
             setTimeout(() => {
                 copyButton.innerHTML = defaultCopyButtonText;
-            }, 1000);
+            }, 1500);
         };
     });
 

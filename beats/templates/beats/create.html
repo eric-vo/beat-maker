@@ -26,12 +26,11 @@
                                 <div>
                             {% endif %}
                                     <div class="note blank-note curved m-2 kick-row d-inline-block" data-id="{{ i }}"></div>
+                                    {% if not i|divisibleby:2 %}
+                                        <div class="beat-separator my-auto m-2 d-inline-block"></div>
+                                    {% endif %}
                             {% if not i|divisibleby:2 %}
                                 </div>
-                            {% endif %}
-
-                            {% if not i|divisibleby:2 and i != 15 %}
-                                <div class="beat-separator my-auto m-2"></div>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -49,12 +48,11 @@
                                 <div>
                             {% endif %}
                                     <div class="note blank-note curved m-2 snare-row d-inline-block" data-id="{{ i }}"></div>
+                                    {% if not i|divisibleby:2 %}
+                                        <div class="beat-separator my-auto m-2 d-inline-block"></div>
+                                    {% endif %}
                             {% if not i|divisibleby:2 %}
                                 </div>
-                            {% endif %}
-
-                            {% if not i|divisibleby:2 and i != 15 %}
-                                <div class="beat-separator my-auto m-2"></div>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -72,12 +70,11 @@
                                 <div>
                             {% endif %}
                                     <div class="note blank-note curved m-2 clap-row d-inline-block" data-id="{{ i }}"></div>
+                                    {% if not i|divisibleby:2 %}
+                                        <div class="beat-separator my-auto m-2 d-inline-block"></div>
+                                    {% endif %}
                             {% if not i|divisibleby:2 %}
                                 </div>
-                            {% endif %}
-
-                            {% if not i|divisibleby:2 and i != 15 %}
-                                <div class="beat-separator my-auto m-2"></div>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -95,12 +92,11 @@
                                 <div>
                             {% endif %}
                                     <div class="note blank-note curved m-2 hat-row d-inline-block" data-id="{{ i }}"></div>
+                                    {% if not i|divisibleby:2 %}
+                                        <div class="beat-separator my-auto m-2 d-inline-block"></div>
+                                    {% endif %}
                             {% if not i|divisibleby:2 %}
                                 </div>
-                            {% endif %}
-
-                            {% if not i|divisibleby:2 and i != 15 %}
-                                <div class="beat-separator my-auto m-2"></div>
                             {% endif %}
                         {% endfor %}
                     </div>

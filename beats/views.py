@@ -112,6 +112,7 @@ def beats(request):
                     "beats": reversed(beats),
                     "error_message": "Invalid beat ID.",
                 },
+                status=400,
             )
 
         return render(
