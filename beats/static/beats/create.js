@@ -17,6 +17,8 @@ const minTempo = 50;
 const maxTempo = 200;
 const defaultTempo = 120;
 
+const volumeLevel = 0.4;
+
 let loginUrl;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -153,6 +155,7 @@ function addAudioTrigger(name) {
 
 function playAudio(name) {
     const audio = new Audio(`${staticDir}/${name}.wav`);
+    audio.volume = volumeLevel;
     audio.play();
 }
 
