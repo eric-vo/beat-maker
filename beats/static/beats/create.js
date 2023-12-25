@@ -10,7 +10,7 @@ const hexRegex = /^[0-9a-fA-F]$/;
 
 const maxNameLength = 128;
 
-const startingPattern = '0000000000000000';
+const startingPattern = '0'.repeat(16);
 const patternLength = 16;
 
 const minTempo = 50;
