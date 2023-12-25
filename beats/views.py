@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import EmptyPage, Paginator
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -14,6 +15,8 @@ MAX_TEMPO = 200
 DEFAULT_TEMPO = 120
 PATTERN_LENGTH = 16
 DEFAULT_PATTERN = "0" * 16
+
+BEATS_PER_PAGE = 3
 
 
 # Create your views here.
@@ -96,35 +99,12 @@ def create(request):
 
 @login_required
 def beats(request):
-    beats = request.user.beats.all()
+    return render_beats_page(request, 1, False)
 
-    if request.method == "POST" and request.user.is_authenticated:
-        try:
-            beat = Beat.objects.get(
-                pk=request.POST["id"], creator=request.user
-            )
-            beat.delete()
-        except Beat.DoesNotExist:
-            return render(
-                request,
-                "beats/beats.html",
-                {
-                    "beats": reversed(beats),
-                    "error_message": "Invalid beat ID.",
-                },
-                status=400,
-            )
 
-        return render(
-            request,
-            "beats/beats.html",
-            {
-                "beats": reversed(beats),
-                "success_message": f"Deleted <strong>{beat.name}</strong>!",
-            },
-        )
-
-    return render(request, "beats/beats.html", {"beats": reversed(beats)})
+@login_required
+def beats_page(request, page):
+    return render_beats_page(request, page)
 
 
 def login_view(request):
@@ -191,3 +171,84 @@ def register(request):
         return HttpResponseRedirect(reverse("create"))
 
     return render(request, "beats/register.html")
+
+
+def render_beats_page(request, page, numbered_page=True):
+    if page == 1 and numbered_page:
+        return HttpResponseRedirect(reverse("beats"))
+
+    paginator = get_beats_paginator(request)
+    beats_page = get_beats_page(page, paginator)
+
+    if beats_page is None:
+        return render(
+            request,
+            "beats/beats.html",
+            {"page_error": "Page not found."},
+            status=404,
+        )
+
+    if request.method == "POST" and request.user.is_authenticated:
+        try:
+            beat = Beat.objects.get(
+                pk=request.POST["id"], creator=request.user
+            )
+            beat.delete()
+        except Beat.DoesNotExist:
+            return render(
+                request,
+                "beats/beats.html",
+                {
+                    "beats": beats_page.object_list,
+                    "page": page,
+                    "page_range": paginator.page_range,
+                    "has_next_page": beats_page.has_next(),
+                    "has_previous_page": beats_page.has_previous(),
+                    "error_message": "Invalid beat ID.",
+                },
+                status=400,
+            )
+
+        paginator = get_beats_paginator(request)
+        beats_page = get_beats_page(page, paginator)
+
+        if beats_page is None:
+            return HttpResponseRedirect(reverse("beats", args=(page - 1,)))
+
+        return render(
+            request,
+            "beats/beats.html",
+            {
+                "beats": beats_page.object_list,
+                "page": page,
+                "page_range": paginator.page_range,
+                "has_next_page": beats_page.has_next(),
+                "has_previous_page": beats_page.has_previous(),
+                "success_message": f"Deleted <strong>{beat.name}</strong>!",
+            },
+        )
+
+    return render(
+        request,
+        "beats/beats.html",
+        {
+            "beats": beats_page.object_list,
+            "page": page,
+            "page_range": paginator.page_range,
+            "has_next_page": beats_page.has_next(),
+            "has_previous_page": beats_page.has_previous(),
+        },
+    )
+
+
+def get_beats_paginator(request):
+    beats = request.user.beats.all()
+    return Paginator(tuple(reversed(beats)), BEATS_PER_PAGE)
+
+
+def get_beats_page(page, paginator):
+    try:
+        beats_page = paginator.page(page)
+        return beats_page
+    except EmptyPage:
+        return None

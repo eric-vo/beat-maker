@@ -8,12 +8,12 @@
 {% block body %}
     <div class="text-center">
         {% if name %}
-            <input class="form-control more-curved mx-auto mt-3" placeholder="Beat Name" id="beat-name" value="{{ name }}">
+            <input class="form-control more-curved mx-auto mt-4" placeholder="Beat Name" id="beat-name" value="{{ name }}">
         {% else %}
-            <input class="form-control more-curved mx-auto mt-3" placeholder="Beat Name" id="beat-name">
+            <input autofocus class="form-control more-curved mx-auto mt-4" placeholder="Beat Name" id="beat-name">
         {% endif %}
 
-        <table class="mt-3 mx-auto">
+        <table class="mt-4 mx-auto">
             <tr class="me-4">
                 <td id="kick">
                     <i class="fa-solid fa-shoe-prints"></i>
@@ -103,8 +103,8 @@
                 </td>
             </tr>
         </table>
-        <div class="mt-3">
-            <form class="mb-2 mx-auto">
+        <div class="mt-4">
+            <form class="mb-3 mx-auto">
                 <div>Tempo:
                     <strong id="tempo-label">
                         {% if tempo %}
@@ -142,7 +142,7 @@
             </form>
 
             {% if error_message %}
-                <div class="alert alert-danger mt-4 mx-auto" id="invalid-pattern">
+                <div class="alert alert-danger mt-4 mx-auto">
                     {{ error_message }}
                 </div>
             {% endif %}
