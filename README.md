@@ -14,13 +14,13 @@ This is my final project for [CS50’s Web Programming with Python and JavaScrip
 7. Run `python manage.py runserver` in your terminal.
 
 
-## File Descriptions:
+## Files Created:
 - `README.md`: Information about the overall project.
 - `requirements.txt`: Required libraries for the website to function.
 - `.gitignore`: Directories and files to avoid committing to the repository.
 
 ### `beats/`:
-- `urls.py`: Code containing all of the website's routes.
+- `urls.py`: Code containing all the website's routes.
 
 ### `beats/static/beats/`:
 - `favicon.ico`: The website's favicon.
