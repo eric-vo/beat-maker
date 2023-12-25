@@ -7,6 +7,33 @@
 
 {% block body %}
     <div class="text-center">
-        <h1 class="mt-3">My Beats</h1>
+        <h1 class="mt-3 mb-4">My Beats</h1>
     </div>
+
+    {% for beat in beats %}
+        <div class="mb-3 w-100 p-3 saved-beat more-curved">
+            <h2 class="m-1">{{ beat.name }}</h2>
+            <p class="m-1 my-2 text-muted">{{ beat.timestamp }}</p>
+
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <span>
+                    <i class="fa-solid fa-music"></i>
+                    <h5 class="d-inline-block ms-1 my-auto mb-3">{{ beat.tempo }} BPM</h5>
+                </span>
+                <span>
+                    <a class="btn btn-primary m-1" href="/create?n={{ beat.name }}{% if beat.pattern != "0000000000000000" %}&p={{ beat.pattern }}{% endif %}{% if beat.tempo != 120 %}&t={{ beat.tempo }}{% endif %}{% if beat.metronome_on %}&m=true{% endif %}">Load Beat</a>
+                    <button class="btn btn-success m-1">Copy Link</button>
+                    <form method="post" class="d-inline-block">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ beat.id }}">
+                        <button class="btn btn-danger m-1">Delete</button>
+                    </form>
+                </span>
+            </div>
+        </div>
+    {% empty %}
+        <p class="mt-4 text-muted text-center">
+            You have no beats saved. Try <a href="/create">making one!</a>
+        </p>
+    {% endfor %}
 {% endblock %}

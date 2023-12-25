@@ -8,16 +8,43 @@ let beat = 0;
 const url = new URL(window.location.href);
 const hexRegex = /^[0-9a-fA-F]$/;
 
+const maxNameLength = 128;
+
 const startingPattern = '0000000000000000';
+const patternLength = 16;
+
+const minTempo = 50;
+const maxTempo = 200;
+const defaultTempo = 120;
+
+let loginUrl;
 
 document.addEventListener('DOMContentLoaded', () => {
+    const beatName = document.querySelector('#beat-name');
     const tempo = document.querySelector('#tempo');
-    const tempoLabel = document.querySelector('#tempo-label')
-
+    const tempoLabel = document.querySelector('#tempo-label');
     const metronome = document.querySelector('#metronome');
 
-    const invalidPattern = document.querySelector('#invalid-pattern');
+    loginUrl = document.querySelector('#login-url');
 
+    const nameParam = url.searchParams.get('n');
+    if (!nameParam || nameParam.length > maxNameLength) {
+        url.searchParams.delete('n');
+    }
+
+    const tempoParam = url.searchParams.get('t');
+    if (isNaN(tempoParam) || tempo.value == defaultTempo || tempoParam < minTempo || tempoParam > maxTempo) {
+        url.searchParams.delete('t');
+        tempo.value = defaultTempo;
+        tempoLabel.innerHTML = tempo.value;
+    }
+
+    const metronomeParam = url.searchParams.get('m');
+    if (!metronomeParam || metronomeParam.toLowerCase() !== 'true') {
+        url.searchParams.delete('m');
+    }
+
+    const invalidPattern = document.querySelector('#invalid-pattern');
     const pattern = url.searchParams.get('p');
     if (pattern) {
         let validPattern = true;
@@ -29,46 +56,68 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        if (pattern.length !== 16) {
+        if (pattern.length !== patternLength) {
             validPattern = false;
         }
 
         if (validPattern) {
             fillNotes(pattern);
+
+            if (pattern === startingPattern) {
+                url.searchParams.delete('p');
+            }
         } else {
             url.searchParams.delete('p');
-            history.replaceState({}, '', url);
-
-            invalidPattern.classList.remove('d-none');
-            setTimeout(() => {
-                invalidPattern.classList.add('d-none');
-            }, 3000);
         }
     }
 
-    document.querySelectorAll('.note').forEach(note => {
-        note.onclick = () => {
-            updateNote(note);
-            updatePattern(note);
-        }
-    });
-
-    tempo.onchange = () => {
-        tempoLabel.innerHTML = tempo.value;
-
-        url.searchParams.set('t', tempo.value);
-        history.replaceState({}, '', url);
-    };
-
-    metronome.onchange = () => {
-        url.searchParams.set('m', metronome.checked);
-        history.replaceState({}, '', url);
-    };
+    history.replaceState({}, '', url);
+    updateLoginUrl();
 
     for (const instrument of instruments) {
         addAudioTrigger(instrument);
     }
     new Audio(`${staticDir}/metronome.wav`);
+
+    document.querySelectorAll('.note').forEach(note => {
+        note.onclick = () => {
+            updateNote(note);
+            updatePattern(note);
+            updateLoginUrl();
+        }
+    });
+
+    beatName.oninput = () => {
+        if (beatName.value) {
+            url.searchParams.set('n', beatName.value);
+        } else {
+            url.searchParams.delete('n');
+        }
+        history.replaceState({}, '', url);
+        updateLoginUrl();
+    };
+
+    tempo.oninput = () => {
+        tempoLabel.innerHTML = tempo.value;
+
+        if (tempo.value == defaultTempo) {
+            url.searchParams.delete('t');
+        } else {
+            url.searchParams.set('t', tempo.value);
+        }
+        history.replaceState({}, '', url);
+        updateLoginUrl();
+    };
+
+    metronome.onchange = () => {
+        if (metronome.checked) {
+            url.searchParams.set('m', metronome.checked);
+        } else {
+            url.searchParams.delete('m');
+        }
+        history.replaceState({}, '', url);
+        updateLoginUrl();
+    };
 
     document.querySelector('#play').onclick = () => {
         resetPlayingNotes();
@@ -81,7 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     document.querySelector('#reset').onclick = () => {
-        tempo.value = 120;
+        beatName.value = '';
+
+        tempo.value = defaultTempo;
         tempoLabel.innerHTML = tempo.value;
 
         metronome.checked = false;
@@ -90,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetPlayingNotes();
 
         history.replaceState(null, null, window.location.pathname);
+        updateLoginUrl();
     };
 });
 
@@ -113,7 +165,7 @@ function playBeat() {
             if (note.classList.contains('colored-note')) {
                 playAudio(note.parentElement.dataset.instrument);
             }
-        } else if (note.dataset.id == (beat + 15) % 16) {
+        } else if (note.dataset.id == (beat + patternLength - 1) % patternLength) {
             note.classList.remove('playing-note');
         }
     });
@@ -122,7 +174,7 @@ function playBeat() {
         playAudio('metronome');
     }
 
-    beat = (beat < 15) ? beat + 1 : 0;
+    beat = (beat < patternLength - 1) ? beat + 1 : 0;
     timeoutLoop = setTimeout(playBeat, 60 / tempo.value / 2 * 1000);
 }
 
@@ -187,8 +239,13 @@ function updatePattern(note) {
     // Update the pattern
     let newPattern = pattern.substring(0, note.dataset.id)
         + newHexColumn + pattern.substring(parseInt(note.dataset.id) + 1);
-    newPattern = newPattern.padEnd(16, '0');
-    url.searchParams.set('p', newPattern);
+    newPattern = newPattern.padEnd(patternLength, '0');
+
+    if (newPattern === startingPattern) {
+        url.searchParams.delete('p');
+    } else {
+        url.searchParams.set('p', newPattern);
+    }
     history.replaceState({}, '', url);
 }
 
@@ -205,4 +262,10 @@ function hexToBinary(char) {
 // Takes 4 character binary string
 function binaryToHex(string) {
     return parseInt(string, 2).toString(16);
+}
+
+function updateLoginUrl() {
+    if (loginUrl) {
+        loginUrl.href = `/login?next=${window.location.pathname}${encodeURIComponent(window.location.search)}`;
+    }
 }

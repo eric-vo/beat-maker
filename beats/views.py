@@ -8,6 +8,12 @@ from django.urls import reverse
 
 from .models import Beat
 
+MAX_NAME_LENGTH = 128
+MIN_TEMPO = 50
+MAX_TEMPO = 200
+DEFAULT_TEMPO = 120
+DEFAULT_PATTERN = "0000000000000000"
+
 
 # Create your views here.
 def index(request):
@@ -15,25 +21,83 @@ def index(request):
 
 
 def create(request):
+    name = request.GET.get("n")
     tempo = request.GET.get("t")
     metronome = request.GET.get("m")
-
     # Pattern is set in create.js
+
+    if request.method == "POST" and request.user.is_authenticated:
+        pattern = request.GET.get("p")
+
+        error_message = None
+
+        # Name validation
+        if name is None or len(name) > MAX_NAME_LENGTH:
+            error_message = "Name must be between 1 and 128 characters."
+
+        # Pattern validation
+        if pattern is None:
+            pattern = DEFAULT_PATTERN
+        else:
+            try:
+                int(pattern, 16)
+                if len(pattern) != 16:
+                    raise ValueError
+            except ValueError:
+                error_message = "Invalid pattern."
+
+        # Tempo validation
+        if tempo is None:
+            tempo = DEFAULT_TEMPO
+        else:
+            try:
+                tempo = int(tempo)
+                if tempo < MIN_TEMPO or tempo > MAX_TEMPO:
+                    raise ValueError
+            except ValueError:
+                error_message = "Invalid tempo."
+
+        if error_message is not None:
+            return render(
+                request,
+                "beats/create.html",
+                {"range": range(16), "error_message": error_message},
+                status=400,
+            )
+
+        beat = Beat(
+            creator=request.user,
+            name=name,
+            pattern=pattern,
+            tempo=tempo,
+            metronome_on=(metronome.lower() == "true")
+            if metronome is not None
+            else False,
+        )
+        beat.save()
+
+        return HttpResponseRedirect(reverse("beats"))
 
     return render(
         request,
         "beats/create.html",
         {
             "range": range(16),
+            "name": name,
             "tempo": tempo,
-            "metronome": metronome,
+            "metronome": metronome.lower() if metronome is not None else None,
         },
     )
 
 
 @login_required
 def beats(request):
-    return render(request, "beats/beats.html")
+    if request.method == "POST" and request.user.is_authenticated:
+        beat = Beat.objects.get(pk=request.POST["id"], creator=request.user)
+        beat.delete()
+
+    beats = request.user.beats.all()
+    return render(request, "beats/beats.html", {"beats": reversed(beats)})
 
 
 def login_view(request):

@@ -7,6 +7,7 @@ class Beat(models.Model):
     creator = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="beats"
     )
+    name = models.CharField(max_length=128)
     timestamp = models.DateTimeField(auto_now_add=True)
     pattern = models.CharField(max_length=16)
     tempo = models.IntegerField()
