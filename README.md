@@ -1,7 +1,7 @@
 # BeatMaker
 **Make beats easily online: no installation needed.**
 
-This is my final project for [CS50’s Web Programming with Python and JavaScript.](https://cs50.harvard.edu/web)
+This is my final project for [CS50’s Web Programming with Python and JavaScript.](https://cs50.harvard.edu/web/)
 
 
 ## How to Run:
@@ -39,6 +39,8 @@ This is my final project for [CS50’s Web Programming with Python and JavaScrip
 - `styles.css`: Code to style the website's elements.
 - `create.js`: Code to enable creating, loading, and tracking beats at the `/create` route.
 - `beats.js`: Code to enable copying links and deleting beats at the `/beats` route.
+- `login.js`: Code to update the `next` parameter of the register link at the `/login` route.
+- `register.js`: Code to update the `next` parameter of the login link at the `/register` route.
 
 ### `beats/templates/beats/`:
 - `layout.html`: A base page that all other pages are built from.

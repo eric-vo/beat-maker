@@ -168,7 +168,11 @@ def register(request):
             )
 
         login(request, user)
-        return HttpResponseRedirect(reverse("create"))
+
+        try:
+            return HttpResponseRedirect(request.GET["next"])
+        except KeyError:
+            return HttpResponseRedirect(reverse("create"))
 
     return render(request, "beats/register.html")
 

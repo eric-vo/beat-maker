@@ -1,4 +1,5 @@
 {% extends "beats/layout.html" %}
+{% load static %}
 
 {% block title %}
     Login | BeatMaker
@@ -17,7 +18,7 @@
             </div>
         </form>
         <div class="mt-5">
-            Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+            Don't have an account? <a href="{% url 'register' %}" id="register-link">Register here.</a>
         </div>
 
         {% if message %}
@@ -26,4 +27,6 @@
             </div>
         {% endif %}
     </div>
+
+    <script src="{% static 'beats/login.js' %}"></script>
 {% endblock %}
