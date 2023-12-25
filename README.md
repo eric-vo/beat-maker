@@ -14,7 +14,7 @@ This is my final project for [CS50’s Web Programming with Python and JavaScrip
 7. Run `python manage.py runserver` in your terminal.
 
 
-## Files Created/Modified:
+## Files Created / Modified from Default:
 - `README.md`: Information about the overall project.
 - `requirements.txt`: Required libraries for the website to function.
 - `.gitignore`: Directories and files to avoid committing to the repository.

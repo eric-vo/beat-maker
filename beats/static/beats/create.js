@@ -5,7 +5,7 @@ const instruments = ['kick', 'snare', 'clap', 'hat'];
 let timeoutLoop;
 let beat = 0;
 
-const url = new URL(window.location.href);
+let url = new URL(window.location.href);
 const hexRegex = /^[0-9a-fA-F]$/;
 
 const maxNameLength = 128;
@@ -143,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         history.replaceState(null, null, window.location.pathname);
         updateLoginUrl();
+        url = new URL(window.location.href);
     };
 });
 
@@ -254,6 +255,7 @@ function updatePattern(note) {
 function clearNotes() {
     document.querySelectorAll('.note').forEach(note => {
         note.classList.remove('colored-note');
+        note.classList.add('blank-note');
     });
 }
 
