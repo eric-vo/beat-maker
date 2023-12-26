@@ -1,5 +1,7 @@
 # BeatMaker
-**Make beats easily online: no installation needed.**
+Make beats easily online: no installation needed.
+
+**For full functionality, run this website using a Chromium browser.**
 
 This is my final project for [CS50’s Web Programming with Python and JavaScript.](https://cs50.harvard.edu/web/)
 
