@@ -14,7 +14,7 @@ This is my final project for [CS50’s Web Programming with Python and JavaScrip
 2. Clone this repository.
 3. Open your terminal and navigate to the newly cloned repository.
 4. Run `pip install -r requirements.txt` in your terminal.
-5. Run `python manage.py makemigrations` in your terminal.
+5. Run `python manage.py makemigrations beats` in your terminal.
 6. Run `python manage.py migrate` in your terminal.
 7. Run `python manage.py runserver` in your terminal.
 
