@@ -3,6 +3,8 @@ Make beats easily online: no installation needed.
 
 **For this website to function properly, open it on a Chromium browser.**
 
+**Project Demo:** https://ericvo.pythonanywhere.com
+
 This is my final project for [CS50’s Web Programming with Python and JavaScript.](https://cs50.harvard.edu/web/)
 
 ![brave_screenshot_ericvo pythonanywhere com](https://github.com/eric-vo/beat-maker/assets/99783770/f93303fd-30f1-40d4-812d-d23d13f38992)
