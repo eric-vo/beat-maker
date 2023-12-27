@@ -5,6 +5,7 @@ Make beats easily online: no installation needed.
 
 This is my final project for [CS50’s Web Programming with Python and JavaScript.](https://cs50.harvard.edu/web/)
 
+![brave_screenshot_ericvo pythonanywhere com](https://github.com/eric-vo/beat-maker/assets/99783770/f93303fd-30f1-40d4-812d-d23d13f38992)
 
 ## How to Run:
 1. Ensure you have Python installed. If you don't, get it [here.](https://www.python.org/downloads/)
